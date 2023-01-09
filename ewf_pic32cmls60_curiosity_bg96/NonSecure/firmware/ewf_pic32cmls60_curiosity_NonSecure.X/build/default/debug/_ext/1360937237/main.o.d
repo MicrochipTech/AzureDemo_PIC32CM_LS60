@@ -108,12 +108,20 @@ build/default/debug/_ext/1360937237/main.o: ../src/main.c \
  ../../../../../../src/ewf_allocator_memory_pool.h \
  ../../../../../../src/ewf_interface.c \
  ../../../../../../src/ewf_interface.h \
+ ../../../../../../src/ewf_tokenizer.h \
+ ../../../../../../src/ewf_message.h \
  ../../../../../../src/ewf_interface_microchip_pic_uart.c \
  ../../../../../../src/ewf_interface_microchip_pic_uart.h \
  ../src/config/default/peripheral/sercom/usart/plib_sercom2_usart.h \
  ../../../../../../src/ewf_adapter.c ../../../../../../src/ewf_adapter.h \
- ../../../../../../src/ewf_adapter_api_urc.h \
  ../../../../../../src/ewf_adapter_api_control.h \
+ ../../../../../../src/ewf_adapter_api_modem.h \
+ ../../../../../../src/ewf_adapter_api_modem_types.h \
+ ../../../../../../src/ewf_adapter_api_modem_general.h \
+ ../../../../../../src/ewf_adapter_api_modem_network_service.h \
+ ../../../../../../src/ewf_adapter_api_modem_packet_domain.h \
+ ../../../../../../src/ewf_adapter_api_modem_sim_utility.h \
+ ../../../../../../src/ewf_adapter_api_modem_sms.h \
  ../../../../../../src/ewf_adapter_api_wifi_station.h \
  ../../../../../../src/ewf_adapter_api_info.h \
  ../../../../../../src/ewf_adapter_api_tls.h \
@@ -130,13 +138,6 @@ build/default/debug/_ext/1360937237/main.o: ../src/main.c \
  ../../../../../../src/ewf_adapter_api_tcp.c \
  ../../../../../../src/ewf_adapter_api_udp.c \
  ../../../../../../src/ewf_adapter_api_modem.c \
- ../../../../../../src/ewf_adapter_api_modem.h \
- ../../../../../../src/ewf_adapter_api_modem_types.h \
- ../../../../../../src/ewf_adapter_api_modem_general.h \
- ../../../../../../src/ewf_adapter_api_modem_network_service.h \
- ../../../../../../src/ewf_adapter_api_modem_packet_domain.h \
- ../../../../../../src/ewf_adapter_api_modem_sim_utility.h \
- ../../../../../../src/ewf_adapter_api_modem_sms.h \
  ../../../../../../src/ewf_adapter_api_modem_general.c \
  ../../../../../../src/ewf_adapter_api_modem_network_service.c \
  ../../../../../../src/ewf_adapter_api_modem_packet_domain.c \
@@ -146,6 +147,7 @@ build/default/debug/_ext/1360937237/main.o: ../src/main.c \
  ../../../../../../src/ewf_adapter_quectel_bg96.h \
  ../../../../../../src/ewf_adapter_quectel_common.h \
  ../../../../../../src/ewf_adapter_quectel_common.c \
+ ../../../../../../src/ewf_adapter_quectel_common_tokenizer.c \
  ../../../../../../src/ewf_adapter_quectel_common_control.c \
  ../../../../../../src/ewf_adapter_quectel_common_urc.c \
  ../../../../../../src/ewf_adapter_quectel_common_info.c \
@@ -381,6 +383,10 @@ build/default/debug/_ext/1360937237/main.o: ../src/main.c \
 
 ../../../../../../src/ewf_interface.h:
 
+../../../../../../src/ewf_tokenizer.h:
+
+../../../../../../src/ewf_message.h:
+
 ../../../../../../src/ewf_interface_microchip_pic_uart.c:
 
 ../../../../../../src/ewf_interface_microchip_pic_uart.h:
@@ -391,9 +397,21 @@ build/default/debug/_ext/1360937237/main.o: ../src/main.c \
 
 ../../../../../../src/ewf_adapter.h:
 
-../../../../../../src/ewf_adapter_api_urc.h:
-
 ../../../../../../src/ewf_adapter_api_control.h:
+
+../../../../../../src/ewf_adapter_api_modem.h:
+
+../../../../../../src/ewf_adapter_api_modem_types.h:
+
+../../../../../../src/ewf_adapter_api_modem_general.h:
+
+../../../../../../src/ewf_adapter_api_modem_network_service.h:
+
+../../../../../../src/ewf_adapter_api_modem_packet_domain.h:
+
+../../../../../../src/ewf_adapter_api_modem_sim_utility.h:
+
+../../../../../../src/ewf_adapter_api_modem_sms.h:
 
 ../../../../../../src/ewf_adapter_api_wifi_station.h:
 
@@ -427,20 +445,6 @@ build/default/debug/_ext/1360937237/main.o: ../src/main.c \
 
 ../../../../../../src/ewf_adapter_api_modem.c:
 
-../../../../../../src/ewf_adapter_api_modem.h:
-
-../../../../../../src/ewf_adapter_api_modem_types.h:
-
-../../../../../../src/ewf_adapter_api_modem_general.h:
-
-../../../../../../src/ewf_adapter_api_modem_network_service.h:
-
-../../../../../../src/ewf_adapter_api_modem_packet_domain.h:
-
-../../../../../../src/ewf_adapter_api_modem_sim_utility.h:
-
-../../../../../../src/ewf_adapter_api_modem_sms.h:
-
 ../../../../../../src/ewf_adapter_api_modem_general.c:
 
 ../../../../../../src/ewf_adapter_api_modem_network_service.c:
@@ -458,6 +462,8 @@ build/default/debug/_ext/1360937237/main.o: ../src/main.c \
 ../../../../../../src/ewf_adapter_quectel_common.h:
 
 ../../../../../../src/ewf_adapter_quectel_common.c:
+
+../../../../../../src/ewf_adapter_quectel_common_tokenizer.c:
 
 ../../../../../../src/ewf_adapter_quectel_common_control.c:
 

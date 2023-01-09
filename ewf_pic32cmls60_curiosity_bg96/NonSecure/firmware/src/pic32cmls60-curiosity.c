@@ -128,9 +128,14 @@ static void azure_iot_hub_topics_subscribe(ewf_adapter* adapter_ptr);
 static void button_message_send(ewf_adapter* adapter_ptr);
 static void azure_iot_telemetry_message_send(ewf_adapter* adapter_ptr);
 static void azure_iot_hub_properties_request(ewf_adapter* adapter_ptr);
-static void azure_iot_hub_reported_property_send(ewf_adapter* adapter_ptr,
+static void azure_iot_hub_reported_property_send_double(ewf_adapter* adapter_ptr,
     az_span name,
     double value,
+    int32_t version,
+    bool write_payload_with_status);
+static void azure_iot_hub_reported_property_send_uint32(ewf_adapter* adapter_ptr,
+    az_span name,
+    uint32_t value,
     int32_t version,
     bool write_payload_with_status);
 static az_span properties_get_request_id(void);
@@ -149,12 +154,23 @@ static void azure_iot_send_command_response(ewf_adapter* adapter_ptr,
     az_iot_hub_client_command_request const* command_request,
     az_iot_status status,
     az_span response);
-static void payload_build(uint8_t property_count, az_span const names[],
+static void payload_build_double(uint8_t property_count, az_span const names[],
     double const values[], az_span const times[],
     az_span property_payload, az_span* out_property_payload);
-static void payload_with_status_build(
+static void payload_build_uint32(uint8_t property_count, az_span const names[],
+    uint32_t const values[], az_span const times[],
+    az_span property_payload, az_span* out_property_payload);
+static void payload_with_status_build_double(
     az_span name,
     double value,
+    int32_t status_code_value,
+    int32_t version_value,
+    az_span description_value,
+    az_span property_payload,
+    az_span* out_property_payload);
+static void payload_with_status_build_uint32(
+    az_span name,
+    uint32_t value,
     int32_t status_code_value,
     int32_t version_value,
     az_span description_value,
@@ -431,7 +447,7 @@ ewf_result ewf_example_azure_iot_pnp_provisioning(ewf_adapter* adapter_ptr) {
     azure_iot_hub_topics_subscribe(adapter_ptr);
 
     /* Send reported properties */
-    azure_iot_hub_reported_property_send(adapter_ptr, property_reported_maximum_temperature_name, device_current_temperature, 0, false);
+    azure_iot_hub_reported_property_send_double(adapter_ptr, property_reported_maximum_temperature_name, device_current_temperature, 0, false);
 
     /* Request all property information */
     azure_iot_hub_properties_request(adapter_ptr);
@@ -450,7 +466,7 @@ ewf_result ewf_example_azure_iot_pnp_provisioning(ewf_adapter* adapter_ptr) {
 
 static void ewf_azure_iot_pnp_sample_demo(ewf_adapter* adapter_ptr)
 {
-
+    uint8_t buffer_length;
     int minutes_counter;
     int seconds_counter;
     int telemetry_counter = 1;
@@ -488,7 +504,7 @@ static void ewf_azure_iot_pnp_sample_demo(ewf_adapter* adapter_ptr)
             if (BUTTON_SW1_check() == BUTTON_PRESS_TRUE)
             {
                 button_message_send(adapter_ptr);                
-            }
+            }                  
             LED_refresh();
             if (SYS_rebootTimer > 0)
             {
@@ -717,7 +733,7 @@ static bool invoke_getMaxMinReport(ewf_adapter* adapter_ptr, az_span payload, az
         = { device_maximum_temperature, device_minimum_temperature, device_average_temperature };
     az_span const times[2] = { start_time_span, end_time_span };
 
-    payload_build(count, names, values, times, response, out_response);
+    payload_build_double(count, names, values, times, response, out_response);
 
     return true;
 }
@@ -818,12 +834,12 @@ static void azure_iot_process_device_property_message(ewf_adapter* adapter_ptr,
 
             // Update device temperature locally and report update to server.
             update_device_temperature_property(desired_temperature, &is_max_temp_changed);
-            azure_iot_hub_reported_property_send(adapter_ptr,
+            azure_iot_hub_reported_property_send_double(adapter_ptr,
                 property_desired_temperature_name, desired_temperature, version_number, true);
 
             if (is_max_temp_changed)
             {
-                azure_iot_hub_reported_property_send(adapter_ptr,
+                azure_iot_hub_reported_property_send_double(adapter_ptr,
                     property_reported_maximum_temperature_name, device_maximum_temperature, 0, false);
             }
 
@@ -851,7 +867,7 @@ static void azure_iot_process_device_property_message(ewf_adapter* adapter_ptr,
 
             // Update LED0 locally and report update to server.
             LED_controller[LED0_GREEN].mode = desired_led0_status;
-            azure_iot_hub_reported_property_send(adapter_ptr,
+            azure_iot_hub_reported_property_send_uint32(adapter_ptr,
                 property_led0_name, desired_led0_status, version_number, true);
 
             // Skip to next property value
@@ -878,7 +894,7 @@ static void azure_iot_process_device_property_message(ewf_adapter* adapter_ptr,
 
             // Update LED1 locally and report update to server.
             LED_controller[LED1_RED].mode = desired_led1_status;
-            azure_iot_hub_reported_property_send(adapter_ptr,
+            azure_iot_hub_reported_property_send_uint32(adapter_ptr,
                 property_led1_name, desired_led1_status, version_number, true);
 
             // Skip to next property value
@@ -905,7 +921,7 @@ static void azure_iot_process_device_property_message(ewf_adapter* adapter_ptr,
 
             // Set the property internally and report update to server.
             telemetryInterval = desired_telemetry_interval;
-            azure_iot_hub_reported_property_send(adapter_ptr,
+            azure_iot_hub_reported_property_send_uint32(adapter_ptr,
                 property_telemetry_interval_name, desired_telemetry_interval, version_number, true);
 
             // Skip to next property value
@@ -970,7 +986,7 @@ static void azure_iot_hub_properties_request(ewf_adapter* adapter_ptr)
 }
 
 /* Creates a message with payload reporting device status and then sends to Azure IoT Hub */
-static void azure_iot_hub_reported_property_send(ewf_adapter* adapter_ptr,
+static void azure_iot_hub_reported_property_send_double(ewf_adapter* adapter_ptr,
     az_span name,
     double value,
     int32_t version,
@@ -999,7 +1015,7 @@ static void azure_iot_hub_reported_property_send(ewf_adapter* adapter_ptr,
 
     if (write_payload_with_status)
     {
-        payload_with_status_build(
+        payload_with_status_build_double(
             name,
             value,
             AZ_IOT_STATUS_OK,
@@ -1014,7 +1030,63 @@ static void azure_iot_hub_reported_property_send(ewf_adapter* adapter_ptr,
         az_span const names[1] = { name };
         double const values[1] = { value };
 
-        payload_build(
+        payload_build_double(
+            count, names, values, NULL, reported_property_payload, &reported_property_payload);
+    }
+
+    ewf_status = ewf_adapter_mqtt_basic_publish(adapter_ptr, property_update_topic_buffer, (char*)reported_property_payload._internal.ptr);
+    if (ewf_result_failed(ewf_status))
+    {
+        EWF_LOG("Failed to publish telemetry: ewf_status %d.\n", ewf_status);
+    }
+}
+
+/* Creates a message with payload reporting device status and then sends to Azure IoT Hub */
+static void azure_iot_hub_reported_property_send_uint32(ewf_adapter* adapter_ptr,
+    az_span name,
+    uint32_t value,
+    int32_t version,
+    bool write_payload_with_status)
+{
+    az_result result = AZ_OK;
+    ewf_result ewf_status = EWF_RESULT_OK;
+
+    // Get the property topic to send a reported property update.
+    char property_update_topic_buffer[128] = { 0 };
+    result = az_iot_hub_client_properties_get_reported_publish_topic(
+        &hub_client,
+        properties_get_request_id(),
+        property_update_topic_buffer,
+        sizeof(property_update_topic_buffer),
+        NULL);
+    if (az_result_failed(result))
+    {
+        EWF_LOG_ERROR("Failed to get the property update topic: az_result %ld.\n", result);
+        exit(1);
+    }
+
+    // Write the updated reported property message.
+    char reported_property_payload_buffer[128] = { 0 };
+    az_span reported_property_payload = AZ_SPAN_FROM_BUFFER(reported_property_payload_buffer);
+
+    if (write_payload_with_status)
+    {
+        payload_with_status_build_uint32(
+            name,
+            value,
+            AZ_IOT_STATUS_OK,
+            version,
+            property_success_name,
+            reported_property_payload,
+            &reported_property_payload);
+    }
+    else
+    {
+        uint8_t count = 1;
+        az_span const names[1] = { name };
+        uint32_t const values[1] = { value };
+
+        payload_build_uint32(
             count, names, values, NULL, reported_property_payload, &reported_property_payload);
     }
 
@@ -1121,7 +1193,7 @@ static void azure_iot_telemetry_message_send(ewf_adapter* adapter_ptr)
 
     char telemetry_payload_buffer[128] = { 0 };
     az_span telemetry_payload = AZ_SPAN_FROM_BUFFER(telemetry_payload_buffer);
-    payload_build(telemetry_count, names, values, NULL, telemetry_payload, &telemetry_payload);
+    payload_build_double(telemetry_count, names, values, NULL, telemetry_payload, &telemetry_payload);
 
     ewf_status = ewf_adapter_mqtt_basic_publish(adapter_ptr, telemetry_topic_buffer, (char*)telemetry_payload._internal.ptr);
     if (ewf_result_failed(ewf_status))
@@ -1132,7 +1204,7 @@ static void azure_iot_telemetry_message_send(ewf_adapter* adapter_ptr)
 }
 
 /* Build the JSON payload with response to a desired property  */
-static void payload_with_status_build(
+static void payload_with_status_build_double(
     az_span name,
     double value,
     int32_t status_code_value,
@@ -1190,8 +1262,66 @@ static void payload_with_status_build(
 
 }
 
+/* Build the JSON payload with response to a desired property  */
+static void payload_with_status_build_uint32(
+    az_span name,
+    uint32_t value,
+    int32_t status_code_value,
+    int32_t version_value,
+    az_span description_value,
+    az_span property_payload,
+    az_span* out_property_payload)
+{
+    az_json_writer jw;
+
+    az_result result = (az_json_writer_init(&jw, property_payload, NULL));
+    if (az_result_failed(result))
+    {
+        EWF_LOG("JSON writer failed to init writer: az_result %ld.\n", result);
+        exit(1);
+    }
+
+    result = az_json_writer_append_begin_object(&jw);
+    if (az_result_failed(result))
+    {
+        EWF_LOG("JSON writer append begin object fail: az_result %ld.\n", result);
+        exit(1);
+    }
+
+    result = az_iot_hub_client_properties_writer_begin_response_status(
+        &hub_client, &jw, name, status_code_value, version_value, description_value);
+    if (az_result_failed(result))
+    {
+        EWF_LOG("Failed to prefix data: az_result %ld.\n", result);
+        exit(1);
+    }
+
+    result = az_json_writer_append_int32(&jw, value);
+    if (az_result_failed(result))
+    {
+        EWF_LOG("JSON writer append double fail: az_result %ld.\n", result);
+        exit(1);
+    }
+
+    result = az_iot_hub_client_properties_writer_end_response_status(&hub_client, &jw);
+    if (az_result_failed(result))
+    {
+        EWF_LOG("Failed to suffix data: az_result %ld.\n", result);
+        exit(1);
+    }
+
+    result = az_json_writer_append_end_object(&jw);
+    if (az_result_failed(result))
+    {
+        EWF_LOG("JSON writer append end object failed: az_result % ld.\n", result);
+        exit(1);
+    }
+    *out_property_payload = az_json_writer_get_bytes_used_in_destination(&jw);
+
+}
+
 /* Build the telemetry JSON payload.  */
-static void payload_build(uint8_t property_count, az_span const names[],
+static void payload_build_double(uint8_t property_count, az_span const names[],
     double const values[], az_span const times[],
     az_span property_payload, az_span* out_property_payload)
 {
@@ -1222,6 +1352,85 @@ static void payload_build(uint8_t property_count, az_span const names[],
 
         //result = az_json_writer_append_int32(&jw, values[i]);
         result = az_json_writer_append_double(&jw, values[i], DOUBLE_DECIMAL_PLACE_DIGITS);
+        if (az_result_failed(result))
+        {
+            EWF_LOG("Json writer append double fail: az_result %ld.\n", result);
+            exit(1);
+        }
+    }
+
+    if (times != NULL)
+    {
+
+        result = az_json_writer_append_property_name(&jw, command_start_time_name);
+        if (az_result_failed(result))
+        {
+            EWF_LOG("Json writer append property name fail: az_result %ld.\n", result);
+            exit(1);
+        }
+
+        result = az_json_writer_append_string(&jw, times[0]);
+        if (az_result_failed(result))
+        {
+            EWF_LOG("Json writer append string fail: az_result %ld.\n", result);
+            exit(1);
+        }
+
+        result = az_json_writer_append_property_name(&jw, command_end_time_name);
+        if (az_result_failed(result))
+        {
+            EWF_LOG("Json writer append property name fail: az_result %ld.\n", result);
+            exit(1);
+        }
+
+        result = az_json_writer_append_string(&jw, times[1]);
+        if (az_result_failed(result))
+        {
+            EWF_LOG("Json writer append string fail: az_result %ld.\n", result);
+            exit(1);
+        }
+    }
+
+    result = az_json_writer_append_end_object(&jw);
+    if (az_result_failed(result))
+    {
+        EWF_LOG("Json writer append end object fail: az_result %ld.\n", result);
+        exit(1);
+    }
+    *out_property_payload = az_json_writer_get_bytes_used_in_destination(&jw);
+}
+
+/* Build the telemetry JSON payload.  */
+static void payload_build_uint32(uint8_t property_count, az_span const names[],
+    uint32_t const values[], az_span const times[],
+    az_span property_payload, az_span* out_property_payload)
+{
+    az_json_writer jw;
+
+    az_result result = (az_json_writer_init(&jw, property_payload, NULL));
+    if (az_result_failed(result))
+    {
+        EWF_LOG("Json writer failed to init writer: az_result %ld.\n", result);
+        exit(1);
+    }
+
+    result = az_json_writer_append_begin_object(&jw);
+    if (az_result_failed(result))
+    {
+        EWF_LOG("Json writer append begin object fail: az_result %ld.\n", result);
+        exit(1);
+    }
+
+    for (uint8_t i = 0; i < property_count; i++)
+    {
+        result = az_json_writer_append_property_name(&jw, names[i]);
+        if (az_result_failed(result))
+        {
+            EWF_LOG("Json writer append property name fail: az_result %ld.\n", result);
+            exit(1);
+        }
+
+        result = az_json_writer_append_int32(&jw, values[i]);
         if (az_result_failed(result))
         {
             EWF_LOG("Json writer append double fail: az_result %ld.\n", result);

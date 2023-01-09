@@ -71,7 +71,7 @@ The web UI lets you quickly connect devices, monitor device conditions, create r
 
 There are several ways to connect devices to Azure IoT. In this section, you learn how to connect a device by using Azure IoT Central. This user guide provide the steps to connect a single device to IoT Central using the group enrollment method based on X.509 certification (with the ATECC608B’s device certificate).  This is the easiest way to develop a proof of concept that utilizes the full features of the ATECC608B secure element.
 
-Follow Microsoft's online [procedure](https://github.com/Azure/embedded-wireless-framework/tree/main/examples/PIC32CM_LS60) for connecting the PIC32CM LS60 Curiosity Pro Evaluation Kit to Azure IoT Central.
+Follow Microsoft's [standard procedure](https://github.com/Azure/embedded-wireless-framework/tree/main/examples/PIC32CM_LS60) (start at the section titled "Example to connect to Azure IoT Central") for connecting the PIC32CM LS60 Curiosity Pro Evaluation Kit to Azure IoT Central.
 
 ### IoT Plug and Play Example
 

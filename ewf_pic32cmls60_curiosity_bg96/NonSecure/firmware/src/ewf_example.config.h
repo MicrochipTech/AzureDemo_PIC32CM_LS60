@@ -58,8 +58,9 @@ extern "C" {
 #define EWF_CONFIG_ENDPOINT                                         "global.azure-devices-provisioning.net"
     
 /** @brief The ID Scope value used by Provisioning service */
-#define EWF_CONFIG_ID_SCOPE                                         "0ne007F6670"
-
+//#define EWF_CONFIG_ID_SCOPE                                         "0ne007F6670"
+#define EWF_CONFIG_ID_SCOPE                                         "0ne000FFA42"
+    
 /** @brief The Device ID provide when creating a device on IoT Central */
 #define EWF_CONFIG_REGISTRATION_ID                                  "curiosity"
 
@@ -81,10 +82,10 @@ extern "C" {
 #define EWF_CONFIG_TELEMETRY_TOPIC_LENGTH                           (256)
 
 /** @brief The number of minutes to run the telemetry loop, 0 means to run forever */
-#define EWF_CONFIG_TELEMETRY_LOOP_MINUTES                           (2)
+#define EWF_CONFIG_TELEMETRY_LOOP_MINUTES                           (0)
 
 /** @brief The default number of seconds in between each telemetry report */
-#define EWF_CONFIG_TELEMETRY_INTERVAL_SECONDS                       (2)
+#define EWF_CONFIG_TELEMETRY_INTERVAL_SECONDS                       (1)
 
 /** @} */
 
