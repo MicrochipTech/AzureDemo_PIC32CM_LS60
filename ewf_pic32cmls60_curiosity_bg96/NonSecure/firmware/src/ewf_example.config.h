@@ -40,6 +40,8 @@ extern "C" {
  * @brief Modem configuration settings used in examples
  * @{
  */
+/** @brief The APN for the LTE network carrier */
+#define EWF_CONFIG_APN                                              "truphone.com"
 
 /** @brief The SIM PIN for the modem */
 #define EWF_CONFIG_SIM_PIN                                          ("0000")
@@ -58,11 +60,10 @@ extern "C" {
 #define EWF_CONFIG_ENDPOINT                                         "global.azure-devices-provisioning.net"
     
 /** @brief The ID Scope value used by Provisioning service */
-//#define EWF_CONFIG_ID_SCOPE                                         "0ne007F6670"
-#define EWF_CONFIG_ID_SCOPE                                         "0ne000FFA42"
+#define EWF_CONFIG_ID_SCOPE                                         "0ne007F73D0"
     
 /** @brief The Device ID provide when creating a device on IoT Central */
-#define EWF_CONFIG_REGISTRATION_ID                                  "curiosity"
+#define EWF_CONFIG_REGISTRATION_ID                                  "curiosity_01"
 
 /** @} *** group_example_configuration_iot_central */
 

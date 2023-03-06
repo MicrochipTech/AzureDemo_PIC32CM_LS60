@@ -90,22 +90,48 @@ int main(void) {
             EWF_CONFIG_MESSAGE_ALLOCATOR_BLOCK_SIZE);
     EWF_INTERFACE_MICROCHIP_PIC_UART_STATIC_DECLARE(interface_ptr, pic_uart);
     EWF_ADAPTER_QUECTEL_BG96_STATIC_DECLARE(adapter_ptr, quectel_bg96, message_allocator_ptr, NULL, interface_ptr);
-
+    
     /* Start the adapter.  */
     if (ewf_result_failed(result = ewf_adapter_start(adapter_ptr))) {
         EWF_LOG_ERROR("Failed to start the adapter, ewf_result %d.\n", result);
         exit(result);
     }
 
-    // Set the SIM PIN
-    if (ewf_result_failed(result = ewf_adapter_modem_sim_pin_enter(adapter_ptr, EWF_CONFIG_SIM_PIN))) {
-        EWF_LOG_ERROR("Failed to the SIM PIN, ewf_result %d.\n", result);
+    // Set the ME functionality to minimum to clear out any previous connections
+    if (ewf_result_failed(result = ewf_adapter_modem_functionality_set(adapter_ptr, EWF_ADAPTER_MODEM_FUNCTIONALITY_MINIMUM)))
+    {
+        EWF_LOG("[Warning][Failed to the ME functionality]\n");
+    }
+
+    ewf_platform_sleep(1* EWF_PLATFORM_TICKS_PER_SECOND);
+	
+    // Set the APN
+    if (ewf_result_failed(result = ewf_adapter_modem_pdp_apn_set(adapter_ptr, EWF_CONFIG_CONTEXT_ID, EWF_ADAPTER_MODEM_PDP_TYPE_IP, EWF_CONFIG_APN)))
+    {
+        EWF_LOG_ERROR("Failed to the set APN, ewf_result %d.\n", result);
         exit(result);
     }
 
     // Set the ME functionality
-    if (ewf_result_failed(result = ewf_adapter_modem_functionality_set(adapter_ptr, "1"))) {
+    if (ewf_result_failed(result = ewf_adapter_modem_functionality_set(adapter_ptr, EWF_ADAPTER_MODEM_FUNCTIONALITY_FULL)))
+    {
         EWF_LOG_ERROR("Failed to the ME functionality, ewf_result %d.\n", result);
+        return (0);
+    }
+
+    /* Wait time for modem to be ready after modem is registered to network */
+    ewf_platform_sleep(2* EWF_PLATFORM_TICKS_PER_SECOND);
+
+    // Set the SIM PIN
+    if (ewf_result_failed(result = ewf_adapter_modem_sim_pin_enter(adapter_ptr, EWF_CONFIG_SIM_PIN)))
+    {
+        EWF_LOG_ERROR("Failed to the SIM PIN, ewf_result %d.\n", result);
+        exit(result);
+    }
+    
+    if (ewf_result_failed(result = ewf_adapter_modem_network_registration_check(adapter_ptr, EWF_ADAPTER_MODEM_CMD_QUERY_EPS_NETWORK_REG, 1000)))
+    {
+        EWF_LOG("[ERROR][Failed to register to network.]\n");
         exit(result);
     }
 

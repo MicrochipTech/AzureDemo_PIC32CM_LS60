@@ -73,11 +73,29 @@ There are several ways to connect devices to Azure IoT. In this section, you lea
 
 Follow Microsoft's [standard procedure](https://github.com/Azure/embedded-wireless-framework/tree/main/examples/PIC32CM_LS60) (start at the section titled "Example to connect to Azure IoT Central") for connecting the PIC32CM LS60 Curiosity Pro Evaluation Kit to Azure IoT Central.
 
+NOTE: In each of the projects that need to be programmed in the standard procedure, make sure to enable the following function call in each of the main() routines (by removing the comments syntax):
+
+    mikroe_bg96_power_toggle();
+
+If this function is not called, the modem will never get powered on... also keep in mind that this function *toggles* the power to the modem, so on every other reset event, the modem will either get powered on or off.
+
 ### IoT Plug and Play Example
 
 - Copy the project folder named `ewf_pic32cmls60_curiosity_bg96` (provided in this repository) into `embedded-wireless-framework/examples/PIC32CM_LS60`
 
     <img src=".//media/Picture0.png" />
+
+- Open the project located at <MY_PATH>/embedded-wireless-framework/examples/PIC32CM_LS60/ewf_pic32cmls60_curiosity_bg96/NonSecure/firmware/ewf_pic32cmls60_curiosity_NonSecure.X
+
+    <img src=".//media/mplab_01.png" width=600/>
+
+- Edit the `ewf_example.config.h` file by setting EWF_CONFIG_ID_SCOPE & EWF_CONFIG_REGISTRATION_ID to the correct values for your IoT Central application 
+
+    <img src=".//media/mplab_02.png" width=600/>
+
+- [OPTIONAL] Change EWF_CONFIG_TELEMETRY_LOOP_MINUTES and/or EWF_CONFIG_TELEMETRY_INTERVAL_SECONDS 
+
+    <img src=".//media/mplab_03.png" width=600/>
 
 - Build and run the `ewf_pic32cmls60_curiosity_bg96` project to see the PIC32CM LS60 Curiosity Pro Evaluation Kit implement the full set of [IoT Plug and Play](https://learn.microsoft.com/en-us/azure/iot-develop/overview-iot-plug-and-play) interfaces of the device model "[dtmi:com:Microchip:PIC32CMLS60_CURIOSITY;1](./device_model/pic32cmls60_curiosity-1.json)"
 
