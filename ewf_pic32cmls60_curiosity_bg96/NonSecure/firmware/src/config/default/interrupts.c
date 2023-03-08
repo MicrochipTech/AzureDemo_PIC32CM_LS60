@@ -108,6 +108,7 @@ const H3DeviceVectors exception_table=
     .pfnSVCall_Handler             = SVCall_Handler,
     .pfnPendSV_Handler             = PendSV_Handler,
     .pfnSysTick_Handler            = SysTick_Handler,
+    .pfnRTC_Handler                = RTC_InterruptHandler,
     .pfnSERCOM2_0_Handler          = SERCOM2_USART_InterruptHandler,
     .pfnSERCOM2_1_Handler          = SERCOM2_USART_InterruptHandler,
     .pfnSERCOM2_2_Handler          = SERCOM2_USART_InterruptHandler,
@@ -118,6 +119,7 @@ const H3DeviceVectors exception_table=
     .pfnSERCOM3_OTHER_Handler      = SERCOM3_OTHER_Handler,
     .pfnEIC_EXTINT_4_Handler       = EIC_EXTINT_4_InterruptHandler,
     .pfnEIC_OTHER_Handler          = EIC_OTHER_InterruptHandler,
+    .pfnPTC_Handler                = PTC_Handler,
 
 };
 

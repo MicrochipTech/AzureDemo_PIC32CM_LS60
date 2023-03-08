@@ -88,15 +88,24 @@ build/default/debug/_ext/1360937237/main.o: ../src/main.c \
  ../src/packs/CMSIS/CMSIS/Core/Include/cmsis_compiler.h \
  ../src/config/default/peripheral/adc/plib_adc_common.h \
  ../src/config/default/peripheral/eic/plib_eic.h \
+ ../src/config/default/peripheral/rtc/plib_rtc.h \
  ../src/config/default/peripheral/sercom/usart/plib_sercom3_usart.h \
  ../src/config/default/peripheral/sercom/usart/plib_sercom_usart_common.h \
  ../src/config/default/peripheral/sercom/usart/plib_sercom2_usart.h \
  ../src/config/default/peripheral/port/plib_port.h \
  ../src/config/default/peripheral/nvic/plib_nvic.h \
  ../src/config/default/peripheral/systick/plib_systick.h \
+ ../src/config/default/touch/touch.h \
+ ../src/config/default/touch/touch_api_ptc.h \
+ ../src/config/default/touch/qtm_common_components_api.h \
+ ../src/config/default/touch/qtm_acq_pic32cm_le_0x0040_api.h \
+ ../src/config/default/touch/qtm_touch_key_0x0002_api.h \
+ ../src/config/default/touch/qtm_freq_hop_0x0006_api.h \
  ../src/config/default/bsp/bsp.h ../src/ewf_example.config.h \
- ../../../../../../src/ewf_lib.c ../../../../../../src/ewf_lib.h \
- ../../../../../../src/ewf.h ../src/ewf.config.h \
+ ../src/config/default/touch/touch_example.h \
+ ../src/config/default/touch/touch.h ../../../../../../src/ewf_lib.c \
+ ../../../../../../src/ewf_lib.h ../../../../../../src/ewf.h \
+ ../src/ewf.config.h \
  ../src/config/default/peripheral/systick/plib_systick.h \
  ../../../../../../src/ewf_ids.h \
  ../../../../../../src/ewf_platform_bare_metal.c \
@@ -337,6 +346,8 @@ build/default/debug/_ext/1360937237/main.o: ../src/main.c \
 
 ../src/config/default/peripheral/eic/plib_eic.h:
 
+../src/config/default/peripheral/rtc/plib_rtc.h:
+
 ../src/config/default/peripheral/sercom/usart/plib_sercom3_usart.h:
 
 ../src/config/default/peripheral/sercom/usart/plib_sercom_usart_common.h:
@@ -349,9 +360,25 @@ build/default/debug/_ext/1360937237/main.o: ../src/main.c \
 
 ../src/config/default/peripheral/systick/plib_systick.h:
 
+../src/config/default/touch/touch.h:
+
+../src/config/default/touch/touch_api_ptc.h:
+
+../src/config/default/touch/qtm_common_components_api.h:
+
+../src/config/default/touch/qtm_acq_pic32cm_le_0x0040_api.h:
+
+../src/config/default/touch/qtm_touch_key_0x0002_api.h:
+
+../src/config/default/touch/qtm_freq_hop_0x0006_api.h:
+
 ../src/config/default/bsp/bsp.h:
 
 ../src/ewf_example.config.h:
+
+../src/config/default/touch/touch_example.h:
+
+../src/config/default/touch/touch.h:
 
 ../../../../../../src/ewf_lib.c:
 

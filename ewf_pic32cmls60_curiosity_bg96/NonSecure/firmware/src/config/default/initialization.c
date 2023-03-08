@@ -133,14 +133,20 @@ void SYS_Initialize ( void* data )
     SERCOM2_USART_Initialize();
 
 	SYSTICK_TimerInitialize();
+
 	BSP_Initialize();
 
     EIC_Initialize();
 
     NVIC_Initialize();
 
-    /* MISRAC 2012 deviation block end */
     ADC_Initialize();
+    
+    RTC_Initialize();
+
+  	touch_init();
+
+    /* MISRAC 2012 deviation block end */
 }
 
 

@@ -42,13 +42,11 @@
 #include "device.h"
 #include "interrupts.h"
 
-
-
-
 static void OSCCTRL_Initialize(void)
 {
     /**************** OSC16M IniTialization *************/
-    OSCCTRL_REGS->OSCCTRL_OSC16MCTRL = OSCCTRL_OSC16MCTRL_FSEL(0x0U) | OSCCTRL_OSC16MCTRL_ENABLE_Msk;
+    //OSCCTRL_REGS->OSCCTRL_OSC16MCTRL = OSCCTRL_OSC16MCTRL_FSEL(0x0U) | OSCCTRL_OSC16MCTRL_ENABLE_Msk;
+    OSCCTRL_REGS->OSCCTRL_OSC16MCTRL = OSCCTRL_OSC16MCTRL_FSEL(0x2U) | OSCCTRL_OSC16MCTRL_RUNSTDBY_Msk | OSCCTRL_OSC16MCTRL_ONDEMAND_Msk | OSCCTRL_OSC16MCTRL_ENABLE_Msk;
 }
 
 static void OSC32KCTRL_Initialize(void)
@@ -85,9 +83,6 @@ static void DFLL48M_Initialize(void)
     }
 }
 
-
-
-
 static void GCLK0_Initialize(void)
 {
 
@@ -96,6 +91,16 @@ static void GCLK0_Initialize(void)
     while((GCLK_REGS->GCLK_SYNCBUSY & GCLK_SYNCBUSY_GENCTRL0_Msk) == GCLK_SYNCBUSY_GENCTRL0_Msk)
     {
         /* wait for the Generator 0 synchronization */
+    }
+}
+
+static void GCLK1_Initialize(void)
+{
+    GCLK_REGS->GCLK_GENCTRL[1] = GCLK_GENCTRL_DIV(3U) | GCLK_GENCTRL_SRC(5U) | GCLK_GENCTRL_GENEN_Msk;
+
+    while((GCLK_REGS->GCLK_SYNCBUSY & GCLK_SYNCBUSY_GENCTRL1_Msk) == GCLK_SYNCBUSY_GENCTRL1_Msk)
+    {
+        /* wait for the Generator 1 synchronization */
     }
 }
 
@@ -110,7 +115,8 @@ void CLOCK_Initialize (void)
     SUPC_REGS->SUPC_VREGPLL = SUPC_VREGPLL_ENABLE_Msk;
     DFLL48M_Initialize();
     GCLK0_Initialize();
-
+    GCLK1_Initialize();
+    
     /* Selection of the Generator and write Lock for EIC */
     GCLK_REGS->GCLK_PCHCTRL[4] = GCLK_PCHCTRL_GEN(0x0)  | GCLK_PCHCTRL_CHEN_Msk;
 
@@ -138,6 +144,14 @@ void CLOCK_Initialize (void)
     GCLK_REGS->GCLK_PCHCTRL[28] = GCLK_PCHCTRL_GEN(0x0)  | GCLK_PCHCTRL_CHEN_Msk;
 
     while ((GCLK_REGS->GCLK_PCHCTRL[28] & GCLK_PCHCTRL_CHEN_Msk) != GCLK_PCHCTRL_CHEN_Msk)
+    {
+        /* Wait for synchronization */
+    }
+    
+    /* Selection of the Generator and write Lock for PTC */
+    GCLK_REGS->GCLK_PCHCTRL[31] = GCLK_PCHCTRL_GEN(0x1)  | GCLK_PCHCTRL_CHEN_Msk;
+
+    while ((GCLK_REGS->GCLK_PCHCTRL[31] & GCLK_PCHCTRL_CHEN_Msk) != GCLK_PCHCTRL_CHEN_Msk)
     {
         /* Wait for synchronization */
     }

@@ -63,7 +63,7 @@ extern "C" {
 #define EWF_CONFIG_ID_SCOPE                                         "0ne007F73D0"
     
 /** @brief The Device ID provide when creating a device on IoT Central */
-#define EWF_CONFIG_REGISTRATION_ID                                  "curiosity_01"
+#define EWF_CONFIG_REGISTRATION_ID                                  "curiosity_02"
 
 /** @} *** group_example_configuration_iot_central */
 

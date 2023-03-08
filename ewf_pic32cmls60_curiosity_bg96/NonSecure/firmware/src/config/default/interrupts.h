@@ -65,6 +65,7 @@ void PendSV_Handler (void);
 void SERCOM2_USART_InterruptHandler (void);
 void EIC_EXTINT_4_InterruptHandler (void);
 void EIC_OTHER_InterruptHandler (void);
-
+void RTC_InterruptHandler (void);
+void PTC_Handler (void);
 
 #endif // INTERRUPTS_H

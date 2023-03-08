@@ -80,7 +80,7 @@
 #pragma config NONSECA_SUPC = CLEAR
 #pragma config NONSECA_GCLK = CLEAR
 #pragma config NONSECA_WDT = CLEAR
-#pragma config NONSECA_RTC = CLEAR
+#pragma config NONSECA_RTC = SET
 #pragma config NONSECA_EIC = CLEAR
 #pragma config NONSECA_FREQM = CLEAR
 #pragma config NONSECA_PORT = CLEAR
@@ -106,7 +106,7 @@
 #pragma config NONSECC_TCC3 = CLEAR
 #pragma config NONSECC_ADC = SET
 #pragma config NONSECC_DAC = CLEAR
-#pragma config NONSECC_PTC = CLEAR
+#pragma config NONSECC_PTC = SET
 #pragma config NONSECC_TRNG = CLEAR
 #pragma config NONSECC_CCL = CLEAR
 #pragma config NONSECC_I2S = CLEAR

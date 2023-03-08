@@ -62,6 +62,10 @@ void NVIC_Initialize( void )
     NVIC_EnableIRQ(EIC_EXTINT_4_IRQn);
     NVIC_SetPriority(EIC_OTHER_IRQn, 3);
     NVIC_EnableIRQ(EIC_OTHER_IRQn);
+    NVIC_SetPriority(RTC_IRQn, 3);
+    NVIC_EnableIRQ(RTC_IRQn);
+    NVIC_SetPriority(PTC_IRQn, 3);
+    NVIC_EnableIRQ(PTC_IRQn);
 }
 
 void NVIC_INT_Enable( void )

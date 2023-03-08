@@ -23,7 +23,8 @@ typedef union
     {
         uint16_t sw0 : 1;
         uint16_t sw1 : 1;
-        uint16_t reserved : 14;
+        uint16_t btn : 1;
+        uint16_t reserved : 13;
     };
     uint16_t as_uint16;
 } button_press_flag_t;
@@ -32,6 +33,7 @@ typedef struct
 {
     uint32_t            sw0_press_count;
     uint32_t            sw1_press_count;
+    uint32_t            btn_press_count;    
     button_press_flag_t flag;
 } BUTTON_PressData;
 
@@ -40,6 +42,7 @@ void BUTTON_SW1_callback(void);
 
 BUTTON_EventStatus BUTTON_SW0_check(void);
 BUTTON_EventStatus BUTTON_SW1_check(void);
+BUTTON_EventStatus BUTTON_BTN_check(void);
 
 #ifdef __cplusplus
 }

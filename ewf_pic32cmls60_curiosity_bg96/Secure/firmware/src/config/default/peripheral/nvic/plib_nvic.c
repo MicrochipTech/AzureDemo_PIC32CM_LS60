@@ -63,8 +63,9 @@ void NVIC_Initialize( void )
     NVIC_SetTargetState(SERCOM2_OTHER_IRQn);
     NVIC_SetTargetState(EIC_EXTINT_4_IRQn);
     NVIC_SetTargetState(EIC_OTHER_IRQn);
+    NVIC_SetTargetState(RTC_IRQn);    
+    NVIC_SetTargetState(PTC_IRQn);
     
-
 }
 
 void NVIC_INT_Enable( void )

@@ -26,6 +26,7 @@
 #include <stdlib.h>                     // Defines EXIT_FAILURE
 #include "definitions.h"                // SYS function prototypes
 #include "ewf_example.config.h"
+#include "config/default/touch/touch_example.h"
 
 // *****************************************************************************
 // *****************************************************************************
@@ -167,7 +168,6 @@ int main(void) {
     while (1) {
         EWF_LOG(".");
         SYSTICK_DelayMs(1000);
-
     }
 }
 

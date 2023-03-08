@@ -14,6 +14,7 @@
 #include "buttons.h"
 #include "commands.h"
 #include "led.h"
+#include "config/default/touch/touch_example.h"
 
 #ifndef EWF_CONFIG_TELEMETRY_USERNAME_LENGTH
 #define EWF_CONFIG_TELEMETRY_USERNAME_LENGTH        (256)
@@ -470,6 +471,7 @@ static void ewf_azure_iot_pnp_sample_demo(ewf_adapter* adapter_ptr)
     int minutes_counter;
     int seconds_counter;
     int telemetry_counter = 1;
+    uint16_t background_loop;
     
     EIC_CallbackRegister(EIC_PIN_12, (EIC_CALLBACK)BUTTON_SW0_callback, 0);
     EIC_InterruptEnable(EIC_PIN_12);
@@ -504,7 +506,11 @@ static void ewf_azure_iot_pnp_sample_demo(ewf_adapter* adapter_ptr)
             if (BUTTON_SW1_check() == BUTTON_PRESS_TRUE)
             {
                 button_message_send(adapter_ptr);                
-            }                  
+            }
+            if (BUTTON_BTN_check() == BUTTON_PRESS_TRUE)
+            {
+                button_message_send(adapter_ptr);                
+            } 
             LED_refresh();
             if (SYS_rebootTimer > 0)
             {
@@ -514,8 +520,14 @@ static void ewf_azure_iot_pnp_sample_demo(ewf_adapter* adapter_ptr)
                     __NVIC_SystemReset();
                 }
             }
+            /* Perform other background tasks here while waiting for the next telemetry interval */
+            for (background_loop = 0; background_loop < EWF_PLATFORM_TICKS_PER_SECOND; background_loop++)
+            {   
+                touch_mainloop_example();
+                SYSTICK_DelayMs(1);
+            }
             /* Sleep for the desired telemetry interval */
-            ewf_platform_sleep(EWF_PLATFORM_TICKS_PER_SECOND * 1);
+            //ewf_platform_sleep(EWF_PLATFORM_TICKS_PER_SECOND * 1);
         }
     }
 

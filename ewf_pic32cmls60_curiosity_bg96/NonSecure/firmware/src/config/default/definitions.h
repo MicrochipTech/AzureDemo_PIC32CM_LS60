@@ -51,11 +51,13 @@
 #include <stdio.h>
 #include "peripheral/adc/plib_adc.h"
 #include "peripheral/eic/plib_eic.h"
+#include "peripheral/rtc/plib_rtc.h"
 #include "peripheral/sercom/usart/plib_sercom3_usart.h"
 #include "peripheral/sercom/usart/plib_sercom2_usart.h"
 #include "peripheral/port/plib_port.h"
 #include "peripheral/nvic/plib_nvic.h"
 #include "peripheral/systick/plib_systick.h"
+#include "touch/touch.h"
 #include "bsp/bsp.h"
 
 // DOM-IGNORE-BEGIN

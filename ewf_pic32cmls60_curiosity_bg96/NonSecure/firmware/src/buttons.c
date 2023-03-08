@@ -72,3 +72,25 @@ BUTTON_EventStatus BUTTON_SW1_check(void)
         return BUTTON_PRESS_TRUE;
     }
 }
+
+BUTTON_EventStatus BUTTON_BTN_check(void)
+{
+    uint8_t buffer_length;
+
+    bool BTN_pressed = BUTTON_pressData.flag.btn == 1 ? BUTTON_PRESS_TRUE : BUTTON_PRESS_FALSE;
+
+    BUTTON_pressData.flag.btn = BUTTON_PRESS_FALSE;
+
+    if (BTN_pressed == BUTTON_PRESS_FALSE)
+    {
+        return BUTTON_PRESS_FALSE;
+    }
+    else
+    {
+        EWF_LOG("AZURE: Button BTN Count %lu", BUTTON_pressData.btn_press_count);
+        buffer_length = (uint8_t)snprintf(BUTTON_eventBuffer, sizeof(BUTTON_eventBuffer), 
+            " {\"button_event\" : {\"button_name\" : \"BTN\", \"press_count\" : %u} } ", 
+            BUTTON_pressData.btn_press_count);
+        return BUTTON_PRESS_TRUE;
+    }
+}
