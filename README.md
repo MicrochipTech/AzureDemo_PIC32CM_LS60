@@ -17,13 +17,13 @@ This user guide describes how to connect the [PIC32CM LS60 Curiosity Pro Evaluat
 
 ## Additional Hardware Requirements
 
- The PIC32CM LS60 Curiosity Pro development board connects to the Internet using the [MikroElektronika](https://www.mikroe.com) [LTE IoT 2](https://www.mikroe.com/lte-iot-2-click) Click board™ that allows connection to LTE networks, featuring Quectel's [BG96 LTE](https://download.mikroe.com/documents/datasheets/Quectel_BG96_LTE_Specification_V1.5.pdf) module, which offers two LTE technologies aimed at Machine to Machine communication (M2M) and Internet of Things (IoT). This module is an embedded IoT communication solution which supports the LTE Cat M1 and NB1 technologies, offering an alternative to similar Low Power Wide Area Network (LPWAN) solutions, such as the ones provided by Sigfox and LoRa. The LTE CAT1 and NB1 technologies are designed with specific requirements of the IoT network in mind. LTE IoT 2 click also offers various other features, allowing simple and reliable connection to these new 3GPP IoT technologies. An [IoT SIM card](https://www.truphone.com/things/sim/) and [right-angle GSM/GPRS antenna](https://www.mikroe.com/gsm-gprs-right-angle-rubber) are also required for the LTE IoT 2 Click board.
+ The PIC32CM LS60 Curiosity Pro development board connects to the Internet using the [MikroElektronika](https://www.mikroe.com) [LTE IoT 2](https://www.mikroe.com/lte-iot-2-click) Click board™ that allows connection to LTE networks, featuring Quectel's [BG96 LTE](https://download.mikroe.com/documents/datasheets/Quectel_BG96_LTE_Specification_V1.5.pdf) module, which offers two LTE technologies aimed at Machine to Machine communication (M2M) and Internet of Things (IoT). This module is an embedded IoT communication solution which supports the LTE Cat M1 and NB1 technologies, offering an alternative to similar Low Power Wide Area Network (LPWAN) solutions, such as the ones provided by Sigfox and LoRa. The LTE CAT1 and NB1 technologies are designed with specific requirements of the IoT network in mind. LTE IoT 2 click also offers various other features, allowing simple and reliable connection to these new 3GPP IoT technologies. An [IoT SIM card](https://www.truphone.com/things/sim/) and [LTE Flat Rotation Antenna](https://www.mikroe.com/lte-flat-rotation-antenna) are also required for the LTE IoT 2 Click board.
 
 <img src=".//media/lte-iot-2-click.jpeg" width=200 />
 
 <img src=".//media/Truphone_SIM.png" width=200 />
 
-<img src=".//media/gsm-gprs-right-angle-rubber.jpeg" width=200/>
+<img src=".//media/LTE-flat-rotation-antenna.jpeg" width=200/>
 
 ## Create an Azure Account and Subscription
 
