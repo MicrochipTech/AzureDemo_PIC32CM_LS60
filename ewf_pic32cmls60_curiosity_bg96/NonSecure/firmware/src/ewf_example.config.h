@@ -42,9 +42,11 @@ extern "C" {
  */
 /** @brief The APN for the LTE network carrier */
 #define EWF_CONFIG_APN                                              "truphone.com"
-
+//#define EWF_CONFIG_APN                                              "m2mNB16.com.attz"
+    
 /** @brief The SIM PIN for the modem */
 #define EWF_CONFIG_SIM_PIN                                          ("0000")
+//#define EWF_CONFIG_SIM_PIN                                          ("1111")
 
 /** @brief The modem context ID used */
 #define EWF_CONFIG_CONTEXT_ID                                       (1)
